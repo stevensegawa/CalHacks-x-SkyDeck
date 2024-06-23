@@ -1,24 +1,24 @@
 import assemblyai as aai
+from elevenlabs import generate, stream
 from openai import OpenAI
-from lmnt.api import Speech
-from lmntSpeaker import playStevenVoice
-import asyncio
+from dotenv import load_dotenv
+import os
 
 # Create an assistant for setup
 class AI_Assistant:
     def __init__(self):
-        aai.settings.api_key = 'ae4a3f1c60c4401e9fb562c7c320e610'
-        self.openai_client = OpenAI(api_key = "sk-proj-sY9f35luVvB3WBqBtnZZT3BlbkFJdeUiFzlLeMqZ4VHA2rTh")
-        self.lmnt_api_key = '82a697aba53c4dad93c2993bfbf920ab'
+        load_dotenv()
+        aai.settings.api_key = os.getenv("ASSEMBLY_API_KEY")
+        self.openai_client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
+        self.elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
+
         self.transcriber = None
 
         # Prompt
         self.full_transcript = [
-            # {"role": "system", "content": "You are an AI market researcher. One at a time, ask your interviewee about 1. their age, gender, income level, and purchasing habits 2. any soap brands you know of and their strengths 3. potential products they hope to see in the future. Be resourceful and efficient."}
-            {"role": "system", "content": "Act as my medical doctor and listen to my symptoms and try to diagnose me. Be resourceful and efficient."}
-
+            {"role": "system", "content": "Act as my medical doctor and listen to my symptoms, diagnose me, and provide steps for relief. Be resourceful and efficient. Keep responses concise but not overly short."}
         ]
-
+    
     # Real-time transcription with Assembly AI
     def start_transcription(self):
         self.transcriber = aai.RealtimeTranscriber(
@@ -72,11 +72,9 @@ class AI_Assistant:
         self.full_transcript.append({"role":"user", "content": transcript.text})
         print(f"\nUser: {transcript.text}", end="\r\n")
 
-        if "oreo" in transcript.text.lower():
-            return
         # Upload transcript to OpenAI
         response = self.openai_client.chat.completions.create(
-            model = "gpt-3.5-turbo",
+            model = "gpt-4o",
             messages = self.full_transcript
         )
 
@@ -87,12 +85,22 @@ class AI_Assistant:
 
         self.start_transcription()
     
-    # Generate audio with 
+    # Generate audio with ElevenLabs
     def generate_audio(self, text):
-        playStevenVoice(text)
+        self.full_transcript.append({"role":"assistant", "content": text})
+        print(f"\nAI Friend: {text}")
+
+        audio_stream = generate(
+            api_key = self.elevenlabs_api_key,
+            text = text,
+            voice = "Rachel",
+            stream = True,
+        )
+
+        stream(audio_stream)
 
 if __name__ == "__main__":
-    greeting = "Hello, I am an AI doctor. Let me know your symptoms"
+    greeting = "Hello, I am an AI doctor, our diagnoser stated you were at high risk for some health concerns. Please let me know your symptoms and I will try to help."
     ai_assistant = AI_Assistant()
     ai_assistant.generate_audio(greeting)
     ai_assistant.start_transcription()
