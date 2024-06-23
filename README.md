@@ -2,7 +2,7 @@
 
 Hi! If you are reading this, this was our submission to the 2024 UC Berkeley AI Hackathon.
 
-#💥 - How it all started
+# 💥 - How it all started
 
 As students, we always try to optimize everything from our study habits to our sleep schedules. But above all, we agreed that the most important thing to optimize was also the most neglected: health. After a careful look into the current status of health-tracking apps, we noticed a few main problems. 
 
@@ -13,7 +13,7 @@ Lacks a call to action: While the mass amount of health data from wearables is b
 Unclear impact: While metrics and health data are important, health apps fail to alert users of the severity of possible problems with their health. Users can’t differentiate a singularly bad day versus a heavy risk of depression with the current status of health apps. 
 
 
-#📖 - What it does
+# 📖 - What it does
 
 We built OptiFi to create a novel, multifaceted approach to creating an all-inclusive health app based on users' health data. We created four main features to fully encapsulate the main use cases of a variety of health apps shown in the slideshow above: Diagnosis, Nutrition Scanner, Health Overview, and Automated Scheduler. Using advanced data analytics, generative AI, and cloud computing, we can take health data, create personalized daily habits, and import them straight into their Google calendar. Check out the other features:
 
@@ -30,7 +30,7 @@ The health overview page displays all of your important health data in one easil
 Recommends healthy activities to plan in your schedule based on your diagnosis results with GPT-4o. Automatically adds accepted events into your calendar with Google Calendar API. The scheduled event includes what it is, the location, a description explaining why it recommended this event based on citations from your health data, a start time and date, and an end time and date.
 
 
-#🔧 - How we built it
+# 🔧 - How we built it
 
 ##### Building the Calendar Scheduler:
 Google Cloud (gcloud): for Google account authentication to access user calendars
@@ -62,7 +62,7 @@ ElevenLabs: for realistic AI audio generation (text to speech)
 Gradio: an open-sourced Python package with customizable UI components to demo the many different features integrated into our application
 
 
-#📒 - The Efficacy of our Models
+# 📒 - The Efficacy of our Models
 
 ##### Collecting health and fitness data for our app:
 
@@ -79,22 +79,22 @@ This script exemplifies an advanced, multi-service AI integration for real-time 
 We used the Small VM - Intel® Xeon 4th Gen ® Scalable processor compute instance in the Intel Tiber Developer Cloud as a development environment with compute resources to build our model. We collect user ratings and food data to store for further personalization. We then organize it into three tensor objects to prepare for model creation: Users, Food, and Ratings. Next, we build our recommendation model using PyTorch’s neural network library, stacking multiple embedding and linear layers and optimizing with mean squared error loss. After cross-checking with our raw user data, we tuned our hyperparameters and compiled the model with the Adam optimizer to achieve results that closely match our user’s preferences. Then, we exported our model into ONNX format for compatibility with OpenVINO. Converting our model into OpenVINO optimized our model inference, allowing for instant user rating predictions on food dishes and easy integration with our existing framework. To provide the user with the best recommendations while ensuring we keep some variability, we randomize a large sample from a pool of food dishes, taking the highest-rated dishes from that sample according to our model.
 
 
-#🚩 - Challenges we ran into
+# 🚩 - Challenges we ran into
 We did not have enough compute resources on our Intel Developer Cloud instance. The only instance available did not have enough memory to support fine tuning a large LLM, crashing our Jupyter notebooks upon run.
 
-#🏆 - Accomplishments that we're proud of
+# 🏆 - Accomplishments that we're proud of
 Connecting phone screenshots to the backend on our computers → implemented a file system listener to manipulate a Dropbox file path connecting to our smart devices
 Automatically scheduling a Google Calendar event → used two intermediary LLMs between input and output with one formatted to give Event Name, Location, Description, Start Time and Date, and End Time and Date and the other to turn it into a JSON output. The JSON could then be reliably extracted as parameters into our Google Calendar API
 Configuring cloud compute services and instances in both our local machine and virtual machine instance terminals
 
-#📝 - What we learned
+# 📝 - What we learned
 Nicholas: "Creating animated high-fidelity mockups in Figma and leading a full software team as PM.”
 Marcus: "Using cloud compute engines such as Intel Developer Cloud, AWS, and Google Cloud to bring advanced AI technology to my projects"
 Steven: "Integrating file listeners to connect phone images uploaded to Dropbox with computer vision from LLMs on my local computer."
 Sean: "How to data clean from XML files with Pandas for cohesive implementation with LLMs."
 
 
-#✈️ - What's next for OptiFi
+# ✈️ - What's next for OptiFi
 
 We envision OptiFi’s future plans in phases. Each of these phases were inspired by leaders in the tech-startup space.
 
