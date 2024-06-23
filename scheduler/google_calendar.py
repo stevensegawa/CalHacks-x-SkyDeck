@@ -65,6 +65,29 @@ def create_event(service, health_calendar, event_info):
   print(f"Event created: {event.get('htmlLink')}")
   return event
 
+def create_recommended_event(event_name, location, description, start_timedate, end_timedate):
+  creds = authorize()
+
+  try:
+    service = build("calendar", "v3", credentials=creds)
+    health_calendar = get_health_calendar(service)
+    event = {
+      'summary': event_name,
+      'location': location,
+      'description': description,
+      'start': {
+        'dateTime': start_timedate,
+        'timeZone': 'America/Los_Angeles',
+      },
+      'end': {
+        'dateTime': end_timedate,
+        'timeZone': 'America/Los_Angeles',
+      },
+    }
+    create_event(service, health_calendar, event)
+
+  except HttpError as error:
+    print(f"An error occurred: {error}")
 
 #use this function to test
 def main():
