@@ -1,14 +1,15 @@
 import assemblyai as aai
-from elevenlabs import generate, stream
 from openai import OpenAI
+from lmnt.api import Speech
+from lmntSpeaker import playStevenVoice
+import asyncio
 
 # Create an assistant for setup
 class AI_Assistant:
     def __init__(self):
         aai.settings.api_key = 'ae4a3f1c60c4401e9fb562c7c320e610'
         self.openai_client = OpenAI(api_key = "sk-proj-sY9f35luVvB3WBqBtnZZT3BlbkFJdeUiFzlLeMqZ4VHA2rTh")
-        self.elevenlabs_api_key = "sk_b376a24c062004feccb06c9b23c6df1914ba4f49d5607ecf"
-
+        self.lmnt_api_key = '82a697aba53c4dad93c2993bfbf920ab'
         self.transcriber = None
 
         # Prompt
@@ -17,7 +18,7 @@ class AI_Assistant:
             {"role": "system", "content": "Act as my medical doctor and listen to my symptoms and try to diagnose me. Be resourceful and efficient."}
 
         ]
-    
+
     # Real-time transcription with Assembly AI
     def start_transcription(self):
         self.transcriber = aai.RealtimeTranscriber(
@@ -86,19 +87,9 @@ class AI_Assistant:
 
         self.start_transcription()
     
-    # Generate audio with ElevenLabs
+    # Generate audio with 
     def generate_audio(self, text):
-        self.full_transcript.append({"role":"assistant", "content": text})
-        print(f"\nAI Friend: {text}")
-
-        audio_stream = generate(
-            api_key = self.elevenlabs_api_key,
-            text = text,
-            voice = "Rachel",
-            stream = True,
-        )
-
-        stream(audio_stream)
+        playStevenVoice(text)
 
 if __name__ == "__main__":
     greeting = "Hello, I am an AI doctor. Let me know your symptoms"
